@@ -1,0 +1,36 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: service-api
+  r2dbc:
+    url: r2dbc:postgresql://localhost:5432/postgres?schema=public&sendStringParametersAsUnicode=false&connectTimeout=PT10s
+    username: DB_CRUD
+    password: admin
+    pool:
+      initial-size: 50
+      max-size: 50
+      max-idle-time: 1m
+      validation-query: "SELECT 1"
+
+management:
+  endpoints:
+    health:
+      show-details: always
+    web:
+      exposure:
+        include: health, shutdown, prometheus
+      pathMapping:
+        health: /health-check
+  endpoint:
+    shutdown:
+      enabled: true
+
+logging:
+  enable-hashing: true
+  level.root: INFO
+  org.springframework: INFO
+  hashing-pattern: '\"authorization\":\"(.*?)\"|authorization=(.*?)\W|\"userId\":\"(.*?)\"|userId=(.*?)\W|\"mobileNo\":\"(.*?)\"|mobileNo=(.*?)\W|\"reqBy\":\"(.*?)\"|reqBy=(.*?)\W'
+
+ignore-log-paths:
+  log-paths: ""
